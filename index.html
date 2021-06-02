@@ -52,89 +52,89 @@
 		border: solid;
 	}
   </style>
-  <div class='.centering'>
+  <div style='.centering'>
     <h1>This is Jeffrey's Home Page!</h1>
     <p>The following is a picture of my glorious house!</p>
-  </center>
+  
     <img src="images/Jeff's Home.jpg" height="400" class = "width:50%">
 	<br>
-  <center>
-	<h1>How are you feeling?</h1>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
-<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
-<script type="text/javascript">
-  // Classifier Variable
-  let classifier;
-  // Model URL
-  let imageModelURL = 'https://teachablemachine.withgoogle.com/models/4B-eQuwgm/';
   
-  // Video
-  let video;
-  let flippedVideo;
-  // To store the classification
-  let label = "";
+	<h1>How are you feeling?</h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script type="text/javascript">
+      // Classifier Variable
+      let classifier;
+      // Model URL
+      let imageModelURL = 'https://teachablemachine.withgoogle.com/models/4B-eQuwgm/';
+      
+      // Video
+      let video;
+      let flippedVideo;
+      // To store the classification
+      let label = "";
 
-  // Load the model first
-  function preload() {
-    classifier = ml5.imageClassifier(imageModelURL + 'model.json');
-  }
+      // Load the model first
+      function preload() {
+        classifier = ml5.imageClassifier(imageModelURL + 'model.json');
+      }
 
-  function setup() {
-    createCanvas(320, 260);
-    // Create the video
-    video = createCapture(VIDEO);
-    video.size(320, 240);
-    video.hide();
+      function setup() {
+        createCanvas(320, 260);
+        // Create the video
+        video = createCapture(VIDEO);
+        video.size(320, 240);
+        video.hide();
 
-    flippedVideo = ml5.flipImage(video);
-    // Start classifying
-    classifyVideo();
-  }
+        flippedVideo = ml5.flipImage(video);
+        // Start classifying
+        classifyVideo();
+      }
 
-  function draw() {
-    background(0);
-    // Draw the video
-    image(flippedVideo, 0, 0);
+      function draw() {
+        background(0);
+        // Draw the video
+        image(flippedVideo, 0, 0);
 
-    // Draw the label
-    fill(255);
-    textSize(16);
-    textAlign(CENTER);
-    if (label == 'smile'){
-      text('☺️', 300, 100);
-    }
-    else if (label == 'not smile'){
-      text('😡', 300, 100);
-    }
-    else if (label == 'neutral'){
-      text('😐', 300, 100);
-    }
-    text(label, width / 2, height - 4);
-  }
+        // Draw the label
+        fill(255);
+        textSize(16);
+        textAlign(CENTER);
+        if (label == 'smile'){
+          text('☺️', 300, 100);
+        }
+        else if (label == 'not smile'){
+          text('😡', 300, 100);
+        }
+        else if (label == 'neutral'){
+          text('😐', 300, 100);
+        }
+        text(label, width / 2, height - 4);
+      }
 
-  // Get a prediction for the current video frame
-  function classifyVideo() {
-    flippedVideo = ml5.flipImage(video)
-    classifier.classify(flippedVideo, gotResult);
-    flippedVideo.remove();
+      // Get a prediction for the current video frame
+      function classifyVideo() {
+        flippedVideo = ml5.flipImage(video)
+        classifier.classify(flippedVideo, gotResult);
+        flippedVideo.remove();
 
-  }
+      }
 
-  // When we get a result
-  function gotResult(error, results) {
-    // If there is an error
-    if (error) {
-      console.error(error);
-      return;
-    }
-    // The results are in an array ordered by confidence.
-    // console.log(results[0]);
-    label = results[0].label;
-    // Classify again!
-    classifyVideo();
-  }
-</script>
+      // When we get a result
+      function gotResult(error, results) {
+        // If there is an error
+        if (error) {
+          console.error(error);
+          return;
+        }
+        // The results are in an array ordered by confidence.
+        // console.log(results[0]);
+        label = results[0].label;
+        // Classify again!
+        classifyVideo();
+      }
+    </script>
 </div>
 
   </body>
